@@ -38,12 +38,12 @@ new #[Layout('components.layouts.app', ['title' => 'Review Loans'])] class exten
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Review Loans') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('Approve or reject loan applications') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Review Loans') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('Approve or reject loan applications') }}</p>
             </div>
-            <flux:button href="{{ route('loans.index') }}" variant="ghost" wire:navigate>
+            <flux:button href="{{ route('loans.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                 {{ __('Back') }}
             </flux:button>
         </div>
@@ -95,9 +95,9 @@ new #[Layout('components.layouts.app', ['title' => 'Review Loans'])] class exten
                                         {{ ucfirst(str_replace('_', ' ', $loan->status)) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-2 py-3 sm:px-4">
                                     <div class="flex items-center gap-2">
-                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" wire:navigate>
+                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                             {{ __('Review') }}
                                         </flux:button>
                                     </div>

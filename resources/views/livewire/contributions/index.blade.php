@@ -52,10 +52,12 @@ new #[Layout('components.layouts.app', ['title' => 'Contributions'])] class exte
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">{{ __('Contributions') }}</h1>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-xl font-bold sm:text-2xl">{{ __('Contributions') }}</h1>
+                </div>
                 @can('create', App\Models\Contribution::class)
-                    <flux:button href="{{ route('contributions.create') }}" variant="primary" wire:navigate>
+                    <flux:button href="{{ route('contributions.create') }}" variant="primary" class="w-full sm:w-auto" wire:navigate>
                         {{ __('Record Contribution') }}
                     </flux:button>
                 @endcan
@@ -79,23 +81,26 @@ new #[Layout('components.layouts.app', ['title' => 'Contributions'])] class exte
                     <table class="w-full">
                         <thead>
                             <tr class="border-b border-neutral-200 dark:border-neutral-700">
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Date') }}</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Member') }}</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Plan') }}</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Amount') }}</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Status') }}</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Actions') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Date') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Member') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm hidden sm:table-cell">{{ __('Plan') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Amount') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Status') }}</th>
+                                <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($this->contributions as $contribution)
                                 <tr class="border-b border-neutral-200 dark:border-neutral-700">
-                                    <td class="px-4 py-3 text-sm">{{ $contribution->payment_date->format('M j, Y') }}</td>
-                                    <td class="px-4 py-3 text-sm">{{ $contribution->member->full_name }}</td>
-                                    <td class="px-4 py-3 text-sm">{{ $contribution->plan->name }}</td>
-                                    <td class="px-4 py-3 text-sm">{{ number_format($contribution->amount, 2) }}</td>
-                                    <td class="px-4 py-3">
-                                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                                    <td class="px-2 py-3 text-xs sm:px-4 sm:text-sm">{{ $contribution->payment_date->format('M j, Y') }}</td>
+                                    <td class="px-2 py-3 text-xs sm:px-4 sm:text-sm">
+                                        <div class="font-medium">{{ $contribution->member->full_name }}</div>
+                                        <div class="text-xs text-neutral-500 sm:hidden">{{ $contribution->plan->name }}</div>
+                                    </td>
+                                    <td class="hidden px-2 py-3 text-xs sm:table-cell sm:px-4 sm:text-sm">{{ $contribution->plan->name }}</td>
+                                    <td class="px-2 py-3 text-xs font-medium sm:px-4 sm:text-sm">{{ number_format($contribution->amount, 2) }}</td>
+                                    <td class="px-2 py-3 sm:px-4">
+                                        <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
                                             {{ $contribution->status === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
                                             {{ $contribution->status === 'approved' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
                                             {{ $contribution->status === 'pending_review' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
@@ -105,8 +110,8 @@ new #[Layout('components.layouts.app', ['title' => 'Contributions'])] class exte
                                             {{ ucfirst(str_replace('_', ' ', $contribution->status)) }}
                                         </span>
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <flux:button href="{{ route('members.show', $contribution->member) }}" variant="ghost" size="sm" wire:navigate>
+                                    <td class="px-2 py-3 sm:px-4">
+                                        <flux:button href="{{ route('members.show', $contribution->member) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                             {{ __('View') }}
                                         </flux:button>
                                     </td>

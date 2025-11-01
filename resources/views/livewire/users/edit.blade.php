@@ -71,10 +71,10 @@ new #[Layout('components.layouts.app', ['title' => 'Edit User'])] class extends 
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div>
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Edit User') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('Update user information and roles') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Edit User') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('Update user information and roles') }}</p>
             </div>
         </div>
 
@@ -107,11 +107,11 @@ new #[Layout('components.layouts.app', ['title' => 'Edit User'])] class extends 
                     </flux:field>
                 </div>
 
-                <div class="mt-6 flex items-center gap-4">
-                    <flux:button type="submit" variant="primary">
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                    <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                         {{ __('Update User') }}
                     </flux:button>
-                    <flux:button href="{{ route('users.index') }}" variant="ghost" wire:navigate>
+                    <flux:button href="{{ route('users.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                         {{ __('Cancel') }}
                     </flux:button>
                 </div>

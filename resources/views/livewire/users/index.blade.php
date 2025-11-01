@@ -92,13 +92,13 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('User Management') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('Manage system users and roles') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('User Management') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('Manage system users and roles') }}</p>
             </div>
-            @can('create', \App\Models\User::class)
-                <flux:button href="{{ route('users.create') }}" variant="primary" wire:navigate>
+            @can('create', User::class)
+                <flux:button href="{{ route('users.create') }}" variant="primary" class="w-full sm:w-auto" wire:navigate>
                     {{ __('Create User') }}
                 </flux:button>
             @endcan
@@ -169,15 +169,15 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-sm text-neutral-500">{{ $user->created_at->format('M j, Y') }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-end gap-2">
+                                <td class="px-2 py-3 sm:px-4">
+                                    <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-end">
                                         @can('update', $user)
-                                            <flux:button href="{{ route('users.edit', $user) }}" variant="ghost" size="sm" wire:navigate>
+                                            <flux:button href="{{ route('users.edit', $user) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                                 {{ __('Edit') }}
                                             </flux:button>
                                         @endcan
                                         @can('delete', $user)
-                                            <flux:button wire:click="openDeleteModal({{ $user->id }})" variant="ghost" size="sm">
+                                            <flux:button wire:click="openDeleteModal({{ $user->id }})" variant="ghost" size="sm" class="w-full sm:w-auto">
                                                 {{ __('Delete') }}
                                             </flux:button>
                                         @endcan
@@ -204,11 +204,11 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
     </div>
 
     <!-- Delete Confirmation Modal -->
-    @if($userToDelete)
+    @if($showDeleteModal && $userToDelete)
         @php
             $userToDeleteObj = User::find($userToDelete);
         @endphp
-        <flux:modal name="delete-user-modal" :show="$showDeleteModal" focusable class="max-w-lg">
+        <flux:modal name="delete-user-modal" show focusable class="max-w-lg">
             <div class="space-y-4">
                 <div>
                     <flux:heading size="lg">{{ __('Delete User') }}</flux:heading>
@@ -229,13 +229,13 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
                     </div>
                 @endif
 
-                <div class="flex items-center gap-2 justify-end">
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                     <flux:modal.close>
-                        <flux:button type="button" wire:click="closeDeleteModal" variant="ghost">
+                        <flux:button type="button" wire:click="closeDeleteModal" variant="ghost" class="w-full sm:w-auto">
                             {{ __('Cancel') }}
                         </flux:button>
                     </flux:modal.close>
-                    <flux:button wire:click="delete" variant="danger">
+                    <flux:button wire:click="delete" variant="danger" class="w-full sm:w-auto">
                         {{ __('Delete User') }}
                     </flux:button>
                 </div>

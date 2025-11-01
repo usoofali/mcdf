@@ -50,10 +50,10 @@ new #[Layout('components.layouts.app', ['title' => 'Eligibility Check'])] class 
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div>
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Health Eligibility Check') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('Check member eligibility for health benefits') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Health Eligibility Check') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('Check member eligibility for health benefits') }}</p>
             </div>
         </div>
 

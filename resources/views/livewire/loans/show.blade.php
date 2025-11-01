@@ -235,12 +235,12 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Details'])] class exten
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Loan Details') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('View and manage loan information') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Loan Details') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('View and manage loan information') }}</p>
             </div>
-            <flux:button href="{{ route('loans.index') }}" variant="ghost" wire:navigate>
+            <flux:button href="{{ route('loans.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                 {{ __('Back') }}
             </flux:button>
         </div>
@@ -440,13 +440,13 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Details'])] class exten
             <flux:input wire:model="dueDate" type="date" :label="__('Due Date')" />
             <flux:textarea wire:model="approveRemarks" :label="__('Remarks')" rows="3" />
 
-            <div class="flex items-center gap-2 justify-end">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                 <flux:modal.close>
-                    <flux:button type="button" wire:click="closeApproveModal" variant="ghost">
+                    <flux:button type="button" wire:click="closeApproveModal" variant="ghost" class="w-full sm:w-auto">
                         {{ __('Cancel') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="primary">
+                <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                     {{ __('Approve') }}
                 </flux:button>
             </div>
@@ -464,13 +464,13 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Details'])] class exten
             <flux:input wire:model="disburseDate" type="date" :label="__('Disbursement Date')" required />
             <flux:textarea wire:model="disburseRemarks" :label="__('Remarks')" rows="3" />
 
-            <div class="flex items-center gap-2 justify-end">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                 <flux:modal.close>
-                    <flux:button type="button" wire:click="closeDisburseModal" variant="ghost">
+                    <flux:button type="button" wire:click="closeDisburseModal" variant="ghost" class="w-full sm:w-auto">
                         {{ __('Cancel') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="primary">
+                <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                     {{ __('Disburse') }}
                 </flux:button>
             </div>
@@ -496,13 +496,13 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Details'])] class exten
             <flux:text class="text-xs text-neutral-500">{{ __('Maximum file size: 5MB. Allowed formats: JPG, PNG, PDF') }}</flux:text>
             <flux:textarea wire:model="repaymentNotes" :label="__('Notes')" rows="3" />
 
-            <div class="flex items-center gap-2 justify-end">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                 <flux:modal.close>
-                    <flux:button type="button" wire:click="closeRepaymentModal" variant="ghost">
+                    <flux:button type="button" wire:click="closeRepaymentModal" variant="ghost" class="w-full sm:w-auto">
                         {{ __('Cancel') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="primary">
+                <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                     {{ __('Record') }}
                 </flux:button>
             </div>
@@ -519,13 +519,13 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Details'])] class exten
 
             <flux:textarea wire:model="defaultReason" :label="__('Reason')" rows="3" placeholder="{{ __('Optional - Reason for marking as defaulted') }}" />
 
-            <div class="flex items-center gap-2 justify-end">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                 <flux:modal.close>
-                    <flux:button type="button" wire:click="closeDefaultModal" variant="ghost">
+                    <flux:button type="button" wire:click="closeDefaultModal" variant="ghost" class="w-full sm:w-auto">
                         {{ __('Cancel') }}
                     </flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="danger">
+                <flux:button type="submit" variant="danger" class="w-full sm:w-auto">
                     {{ __('Mark as Defaulted') }}
                 </flux:button>
             </div>

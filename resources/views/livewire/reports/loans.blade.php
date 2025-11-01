@@ -76,12 +76,12 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Performance Report'])] 
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Loan Performance Report') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('View loan statistics and performance metrics') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Loan Performance Report') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('View loan statistics and performance metrics') }}</p>
             </div>
-            <flux:button wire:click="exportCsv" variant="primary" size="sm">
+            <flux:button wire:click="exportCsv" variant="primary" size="sm" class="w-full sm:w-auto">
                 {{ __('Export CSV') }}
             </flux:button>
         </div>

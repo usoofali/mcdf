@@ -52,13 +52,13 @@ new #[Layout('components.layouts.app', ['title' => 'Loans'])] class extends Volt
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Loans') }}</h1>
-                <p class="text-sm text-neutral-500">{{ __('Manage loan applications and repayments') }}</p>
+                <h1 class="text-xl font-bold sm:text-2xl">{{ __('Loans') }}</h1>
+                <p class="text-xs text-neutral-500 sm:text-sm">{{ __('Manage loan applications and repayments') }}</p>
             </div>
             @can('create', Loan::class)
-                <flux:button href="{{ route('loans.create') }}" variant="primary" wire:navigate>
+                <flux:button href="{{ route('loans.create') }}" variant="primary" class="w-full sm:w-auto" wire:navigate>
                     {{ __('New Loan') }}
                 </flux:button>
             @endcan
@@ -91,28 +91,35 @@ new #[Layout('components.layouts.app', ['title' => 'Loans'])] class extends Volt
                 <table class="w-full">
                     <thead class="bg-neutral-50 dark:bg-neutral-900">
                         <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Date') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Member') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Amount') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Approved') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Balance') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Status') }}</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold">{{ __('Actions') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Date') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Member') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm hidden sm:table-cell">{{ __('Amount') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm hidden sm:table-cell">{{ __('Approved') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm hidden sm:table-cell">{{ __('Balance') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Status') }}</th>
+                            <th class="px-2 py-3 text-left text-xs font-semibold sm:px-4 sm:text-sm">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($this->loans as $loan)
                             <tr class="border-b border-neutral-200 dark:border-neutral-700">
-                                <td class="px-4 py-3 text-sm">{{ $loan->created_at->format('M j, Y') }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="text-sm font-medium">{{ $loan->member->full_name }}</div>
+                                <td class="px-2 py-3 text-xs sm:px-4 sm:text-sm">{{ $loan->created_at->format('M j, Y') }}</td>
+                                <td class="px-2 py-3 sm:px-4">
+                                    <div class="text-xs font-medium sm:text-sm">{{ $loan->member->full_name }}</div>
                                     <div class="text-xs text-neutral-500">{{ $loan->member->registration_no }}</div>
+                                    <div class="mt-1 text-xs font-medium sm:hidden">
+                                        {{ __('Amount:') }} {{ number_format($loan->amount, 2) }}
+                                        @if($loan->approved_amount)
+                                            | {{ __('Approved:') }} {{ number_format($loan->approved_amount, 2) }}
+                                        @endif
+                                        | {{ __('Balance:') }} {{ number_format($loan->balance, 2) }}
+                                    </div>
                                 </td>
-                                <td class="px-4 py-3 text-sm">{{ number_format($loan->amount, 2) }}</td>
-                                <td class="px-4 py-3 text-sm">{{ $loan->approved_amount ? number_format($loan->approved_amount, 2) : __('N/A') }}</td>
-                                <td class="px-4 py-3 text-sm">{{ number_format($loan->balance, 2) }}</td>
-                                <td class="px-4 py-3">
-                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                                <td class="hidden px-2 py-3 text-xs sm:table-cell sm:px-4 sm:text-sm">{{ number_format($loan->amount, 2) }}</td>
+                                <td class="hidden px-2 py-3 text-xs sm:table-cell sm:px-4 sm:text-sm">{{ $loan->approved_amount ? number_format($loan->approved_amount, 2) : __('N/A') }}</td>
+                                <td class="hidden px-2 py-3 text-xs sm:table-cell sm:px-4 sm:text-sm">{{ number_format($loan->balance, 2) }}</td>
+                                <td class="px-2 py-3 sm:px-4">
+                                    <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
                                         {{ $loan->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
                                         {{ $loan->status === 'approved' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
                                         {{ $loan->status === 'disbursed' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : '' }}
@@ -122,9 +129,9 @@ new #[Layout('components.layouts.app', ['title' => 'Loans'])] class extends Volt
                                         {{ ucfirst(str_replace('_', ' ', $loan->status)) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-2 py-3 sm:px-4">
                                     <div class="flex items-center gap-2">
-                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" wire:navigate>
+                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                             {{ __('View') }}
                                         </flux:button>
                                     </div>

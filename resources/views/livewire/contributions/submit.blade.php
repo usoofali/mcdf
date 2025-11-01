@@ -69,9 +69,11 @@ new #[Layout('components.layouts.app', ['title' => 'Submit Contribution'])] clas
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">{{ __('Submit Contribution') }}</h1>
-                <flux:button href="{{ route('contributions.index') }}" variant="ghost" wire:navigate>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-xl font-bold sm:text-2xl">{{ __('Submit Contribution') }}</h1>
+                </div>
+                <flux:button href="{{ route('contributions.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                     {{ __('Back') }}
                 </flux:button>
             </div>
@@ -109,11 +111,11 @@ new #[Layout('components.layouts.app', ['title' => 'Submit Contribution'])] clas
                     <x-alert type="error">{{ session('error') }}</x-alert>
                 @endif
 
-                <div class="mt-6 flex items-center gap-4">
-                    <flux:button type="submit" variant="primary">
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                    <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                         {{ __('Submit Contribution') }}
                     </flux:button>
-                    <flux:button href="{{ route('contributions.index') }}" variant="ghost" wire:navigate>
+                    <flux:button href="{{ route('contributions.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                         {{ __('Cancel') }}
                     </flux:button>
                 </div>

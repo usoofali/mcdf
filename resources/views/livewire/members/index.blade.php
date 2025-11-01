@@ -82,10 +82,12 @@ new #[Layout('components.layouts.app', ['title' => 'Members'])] class extends Vo
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">{{ __('Members') }}</h1>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-xl font-bold sm:text-2xl">{{ __('Members') }}</h1>
+                </div>
                 @can('create', App\Models\Member::class)
-                    <flux:button href="{{ route('members.create') }}" variant="primary" wire:navigate>
+                    <flux:button href="{{ route('members.create') }}" variant="primary" class="w-full sm:w-auto" wire:navigate>
                         {{ __('Add Member') }}
                     </flux:button>
                 @endcan
@@ -145,13 +147,13 @@ new #[Layout('components.layouts.app', ['title' => 'Members'])] class extends Vo
                                             {{ ucfirst($member->status) }}
                                         </span>
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <div class="flex items-center gap-2">
-                                            <flux:button href="{{ route('members.show', $member) }}" variant="ghost" size="sm" wire:navigate>
+                                    <td class="px-2 py-3 sm:px-4">
+                                        <div class="flex flex-col gap-1 sm:flex-row sm:items-center">
+                                            <flux:button href="{{ route('members.show', $member) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                                 {{ __('View') }}
                                             </flux:button>
                                             @can('update', $member)
-                                                <flux:button href="{{ route('members.edit', $member) }}" variant="ghost" size="sm" wire:navigate>
+                                                <flux:button href="{{ route('members.edit', $member) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                                     {{ __('Edit') }}
                                                 </flux:button>
                                             @endcan

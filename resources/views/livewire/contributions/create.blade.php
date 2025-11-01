@@ -89,9 +89,11 @@ new #[Layout('components.layouts.app', ['title' => 'Record Contribution'])] clas
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">{{ __('Record Contribution') }}</h1>
-                <flux:button href="{{ route('contributions.index') }}" variant="ghost" wire:navigate>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-xl font-bold sm:text-2xl">{{ __('Record Contribution') }}</h1>
+                </div>
+                <flux:button href="{{ route('contributions.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                     {{ __('Back') }}
                 </flux:button>
             </div>

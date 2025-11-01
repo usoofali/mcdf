@@ -104,17 +104,17 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
 
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold">{{ $member->full_name }}</h1>
-                    <p class="text-sm text-neutral-500">{{ $member->registration_no }}</p>
+                    <h1 class="text-xl font-bold sm:text-2xl">{{ $member->full_name }}</h1>
+                    <p class="text-xs text-neutral-500 sm:text-sm">{{ $member->registration_no }}</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <flux:button href="{{ route('members.index') }}" variant="ghost" wire:navigate>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <flux:button href="{{ route('members.index') }}" variant="ghost" class="w-full sm:w-auto" wire:navigate>
                         {{ __('Back') }}
                     </flux:button>
                     @can('update', $member)
-                        <flux:button href="{{ route('members.edit', $member) }}" variant="primary" wire:navigate>
+                        <flux:button href="{{ route('members.edit', $member) }}" variant="primary" class="w-full sm:w-auto" wire:navigate>
                             {{ __('Edit') }}
                         </flux:button>
                     @endcan
@@ -253,9 +253,9 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                 <x-alert type="error">{{ session('error') }}</x-alert>
                             @endif
 
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-semibold">{{ __('Dependents') }}</h3>
-                                <flux:button wire:click="openDependentModal()" variant="primary" size="sm">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <h3 class="text-base font-semibold sm:text-lg">{{ __('Dependents') }}</h3>
+                                <flux:button wire:click="openDependentModal()" variant="primary" size="sm" class="w-full sm:w-auto">
                                     {{ __('Add Dependent') }}
                                 </flux:button>
                             </div>
@@ -287,12 +287,12 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                                             {{ $dependent->isEligible() ? __('Yes') : __('No') }}
                                                         </span>
                                                     </td>
-                                                    <td class="px-4 py-3">
-                                                        <div class="flex items-center gap-2">
-                                                            <flux:button wire:click="openDependentModal({{ $dependent->id }})" variant="ghost" size="sm">
+                                                    <td class="px-2 py-3 sm:px-4">
+                                                        <div class="flex flex-col gap-1 sm:flex-row sm:items-center">
+                                                            <flux:button wire:click="openDependentModal({{ $dependent->id }})" variant="ghost" size="sm" class="w-full sm:w-auto">
                                                                 {{ __('Edit') }}
                                                             </flux:button>
-                                                            <flux:button wire:click="deleteDependent({{ $dependent->id }})" wire:confirm="{{ __('Are you sure you want to delete this dependent?') }}" variant="ghost" size="sm">
+                                                            <flux:button wire:click="deleteDependent({{ $dependent->id }})" wire:confirm="{{ __('Are you sure you want to delete this dependent?') }}" variant="ghost" size="sm" class="w-full sm:w-auto">
                                                                 {{ __('Delete') }}
                                                             </flux:button>
                                                         </div>
@@ -326,13 +326,13 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                 <flux:input wire:model="dependentNin" :label="__('NIN (11 digits)')" maxlength="11" placeholder="{{ __('Optional - 11-digit National ID') }}" />
                                 <flux:text class="text-xs text-neutral-500">{{ __('If provided, NIN must be exactly 11 digits and unique.') }}</flux:text>
 
-                                <div class="flex items-center gap-2 justify-end">
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                                     <flux:modal.close>
-                                        <flux:button type="button" wire:click="closeDependentModal" variant="ghost">
+                                        <flux:button type="button" wire:click="closeDependentModal" variant="ghost" class="w-full sm:w-auto">
                                             {{ __('Cancel') }}
                                         </flux:button>
                                     </flux:modal.close>
-                                    <flux:button type="submit" variant="primary">
+                                    <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
                                         {{ $editingDependentId ? __('Update') : __('Add') }}
                                     </flux:button>
                                 </div>
@@ -340,10 +340,10 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                         </flux:modal>
                     @elseif($activeTab === 'contributions')
                         <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-semibold">{{ __('Contributions') }}</h3>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <h3 class="text-base font-semibold sm:text-lg">{{ __('Contributions') }}</h3>
                                 @can('submit', \App\Models\Contribution::class)
-                                    <flux:button href="{{ route('contributions.submit') }}" variant="primary" size="sm" wire:navigate>
+                                    <flux:button href="{{ route('contributions.submit') }}" variant="primary" size="sm" class="w-full sm:w-auto" wire:navigate>
                                         {{ __('Submit Contribution') }}
                                     </flux:button>
                                 @endcan
@@ -397,10 +397,10 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                         </div>
                     @elseif($activeTab === 'loans')
                         <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-semibold">{{ __('Loans') }}</h3>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <h3 class="text-base font-semibold sm:text-lg">{{ __('Loans') }}</h3>
                                 @can('create', \App\Models\Loan::class)
-                                    <flux:button href="{{ route('loans.create') }}?member={{ $member->id }}" variant="primary" size="sm" wire:navigate>
+                                    <flux:button href="{{ route('loans.create') }}?member={{ $member->id }}" variant="primary" size="sm" class="w-full sm:w-auto" wire:navigate>
                                         {{ __('New Loan') }}
                                     </flux:button>
                                 @endcan
@@ -437,8 +437,8 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                                             {{ ucfirst(str_replace('_', ' ', $loan->status)) }}
                                                         </span>
                                                     </td>
-                                                    <td class="px-4 py-3">
-                                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" wire:navigate>
+                                                    <td class="px-2 py-3 sm:px-4">
+                                                        <flux:button href="{{ route('loans.show', $loan) }}" variant="ghost" size="sm" class="w-full sm:w-auto" wire:navigate>
                                                             {{ __('View') }}
                                                         </flux:button>
                                                     </td>
