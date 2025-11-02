@@ -63,9 +63,6 @@ new #[Layout('components.layouts.app', ['title' => 'Create User'])] class extend
             </div>
         </div>
 
-        @if(session()->has('success'))
-            <x-alert type="success">{{ session('success') }}</x-alert>
-        @endif
 
         <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
             <form wire:submit="save" class="p-6">
@@ -103,5 +100,19 @@ new #[Layout('components.layouts.app', ['title' => 'Create User'])] class extend
             </form>
         </div>
     </div>
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="error" :timeout="5000">
+            {{ session('error') }}
+        </x-alert>
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="success" :timeout="5000">
+            {{ session('success') }}
+        </x-alert>
+    </div>
+    @endif
 </div>
 

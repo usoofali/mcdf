@@ -36,7 +36,7 @@ final class Dependent extends Model
     {
         // Child eligible if age ≤ 15
         if ($this->relationship === 'child') {
-            return $this->date_of_birth->age <= 15;
+            return $this->age <= 15;
         }
 
         // Other relationships inherit from member eligibility
@@ -45,7 +45,7 @@ final class Dependent extends Model
 
     public function getAgeAttribute(): int
     {
-        return $this->date_of_birth->age;
+        return $this->date_of_birth ? (int) $this->date_of_birth->diffInYears(now()) : 0;
     }
 
     protected static function boot(): void

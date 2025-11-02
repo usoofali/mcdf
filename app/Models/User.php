@@ -79,4 +79,13 @@ final class User extends Authenticatable
     {
         return $this->roles()->whereIn('slug', $roleSlugs)->exists();
     }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::deleted(function (User $user): void {
+            session()->flash('success', __('User deleted successfully.'));
+        });
+    }
 }

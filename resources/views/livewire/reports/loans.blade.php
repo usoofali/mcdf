@@ -86,13 +86,6 @@ new #[Layout('components.layouts.app', ['title' => 'Loan Performance Report'])] 
             </flux:button>
         </div>
 
-        @if(session()->has('success'))
-            <x-alert type="success">{{ session('success') }}</x-alert>
-        @endif
-
-        @if(session()->has('info'))
-            <x-alert type="info">{{ session('info') }}</x-alert>
-        @endif
 
         <!-- Filters -->
         <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">

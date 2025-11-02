@@ -127,13 +127,6 @@ new #[Layout('components.layouts.app', ['title' => 'Create Member'])] class exte
                     <flux:textarea wire:model="notes" :label="__('Notes')" rows="3" />
                 </div>
 
-                @if(session()->has('success'))
-                    <x-alert type="success">{{ session('success') }}</x-alert>
-                @endif
-
-                @if(session()->has('error'))
-                    <x-alert type="error">{{ session('error') }}</x-alert>
-                @endif
 
                 <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     <flux:button type="submit" variant="primary" class="w-full sm:w-auto">
@@ -145,5 +138,19 @@ new #[Layout('components.layouts.app', ['title' => 'Create Member'])] class exte
                 </div>
             </form>
         </div>
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="error" :timeout="5000">
+            {{ session('error') }}
+        </x-alert>
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="success" :timeout="5000">
+            {{ session('success') }}
+        </x-alert>
+    </div>
+    @endif
 </div>
 

@@ -82,10 +82,10 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
         try {
             $user->delete();
             $this->closeDeleteModal();
-            session()->flash('success', __('User deleted successfully.'));
         } catch (\Exception $e) {
-            session()->flash('error', __('Failed to delete user.'));
             $this->closeDeleteModal();
+            $message = __('Failed to delete user.');
+            $this->js("window.dispatchEvent(new CustomEvent('toast', { detail: { message: " . json_encode($message) . ", bgColor: 'bg-red-500', icon: 'x-circle' }}));");
         }
     }
 }; ?>
@@ -104,13 +104,6 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
             @endcan
         </div>
 
-        @if(session()->has('success'))
-            <x-alert type="success">{{ session('success') }}</x-alert>
-        @endif
-
-        @if(session()->has('error'))
-            <x-alert type="error">{{ session('error') }}</x-alert>
-        @endif
 
         <!-- Filters -->
         <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
@@ -204,11 +197,11 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
     </div>
 
     <!-- Delete Confirmation Modal -->
-    @if($showDeleteModal && $userToDelete)
+    @if($userToDelete)
         @php
             $userToDeleteObj = User::find($userToDelete);
         @endphp
-        <flux:modal name="delete-user-modal" show focusable class="max-w-lg">
+        <flux:modal wire:model.self="showDeleteModal" wire:close="closeDeleteModal" class="max-w-lg">
             <div class="space-y-4">
                 <div>
                     <flux:heading size="lg">{{ __('Delete User') }}</flux:heading>
@@ -231,7 +224,7 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
 
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
                     <flux:modal.close>
-                        <flux:button type="button" wire:click="closeDeleteModal" variant="ghost" class="w-full sm:w-auto">
+                        <flux:button type="button" variant="ghost" class="w-full sm:w-auto">
                             {{ __('Cancel') }}
                         </flux:button>
                     </flux:modal.close>
@@ -241,6 +234,20 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
                 </div>
             </div>
         </flux:modal>
+    @endif
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="error" :timeout="5000">
+            {{ session('error') }}
+        </x-alert>
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="success" :timeout="5000">
+            {{ session('success') }}
+        </x-alert>
+    </div>
     @endif
 </div>
 

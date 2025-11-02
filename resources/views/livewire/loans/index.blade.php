@@ -64,13 +64,6 @@ new #[Layout('components.layouts.app', ['title' => 'Loans'])] class extends Volt
             @endcan
         </div>
 
-        @if(session()->has('success'))
-            <x-alert type="success">{{ session('success') }}</x-alert>
-        @endif
-
-        @if(session()->has('error'))
-            <x-alert type="error">{{ session('error') }}</x-alert>
-        @endif
 
         <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
             <div class="border-b border-neutral-200 p-4 dark:border-neutral-700">
@@ -153,5 +146,19 @@ new #[Layout('components.layouts.app', ['title' => 'Loans'])] class extends Volt
             </div>
         </div>
     </div>
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="error" :timeout="5000">
+            {{ session('error') }}
+        </x-alert>
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="success" :timeout="5000">
+            {{ session('success') }}
+        </x-alert>
+    </div>
+    @endif
 </div>
 

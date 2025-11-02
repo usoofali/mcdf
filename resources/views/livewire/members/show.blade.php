@@ -245,13 +245,6 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                         </div>
                     @elseif($activeTab === 'dependents')
                         <div class="space-y-4">
-                            @if(session()->has('success'))
-                                <x-alert type="success">{{ session('success') }}</x-alert>
-                            @endif
-
-                            @if(session()->has('error'))
-                                <x-alert type="error">{{ session('error') }}</x-alert>
-                            @endif
 
                             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <h3 class="text-base font-semibold sm:text-lg">{{ __('Dependents') }}</h3>
@@ -461,5 +454,19 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                 </div>
             </div>
         </div>
+    @if (session()->has('error'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="error" :timeout="5000">
+            {{ session('error') }}
+        </x-alert>
+    </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="fixed bottom-4 right-4 z-50">
+        <x-alert variant="success" :timeout="5000">
+            {{ session('success') }}
+        </x-alert>
+    </div>
+    @endif
 </div>
 
