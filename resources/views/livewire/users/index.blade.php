@@ -188,11 +188,9 @@ new #[Layout('components.layouts.app', ['title' => 'User Management'])] class ex
                 </table>
             </div>
 
-            @if($this->users->hasPages())
-                <div class="border-t border-neutral-200 p-4 dark:border-neutral-700">
-                    {{ $this->users->links() }}
-                </div>
-            @endif
+            <div class="border-t border-neutral-200 p-4 dark:border-neutral-700">
+                {{ $this->users->links() }}
+            </div>
         </div>
     </div>
 

@@ -6,10 +6,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component as VoltComponent;
+use Livewire\WithPagination;
 
 new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class extends VoltComponent
 {
-    use AuthorizesRequests;
+    use AuthorizesRequests, WithPagination;
 
     public Member $member;
     public string $activeTab = 'overview';
@@ -23,13 +24,25 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
     public function mount(Member $member): void
     {
         $this->authorize('view', $member);
-        $this->member = $member->load(['state', 'lga', 'dependents', 'loans.repayments', 'contributions.plan']);
+        $this->member = $member->load(['state', 'lga']);
     }
 
     #[Computed]
     public function dependents()
     {
-        return $this->member->dependents()->latest()->get();
+        return $this->member->dependents()->latest()->paginate(10, ['*'], 'dependents_page');
+    }
+
+    #[Computed]
+    public function contributions()
+    {
+        return $this->member->contributions()->with('plan')->latest()->paginate(10, ['*'], 'contributions_page');
+    }
+
+    #[Computed]
+    public function loans()
+    {
+        return $this->member->loans()->with('repayments')->latest()->paginate(10, ['*'], 'loans_page');
     }
 
     public function openDependentModal(?int $id = null): void
@@ -295,6 +308,10 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <div class="mt-4">
+                                    {{ $this->dependents->links() }}
+                                </div>
                             @else
                                 <div class="rounded-lg border border-neutral-200 bg-neutral-50 p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
                                     <p class="text-sm text-neutral-500">{{ __('No dependents added yet.') }}</p>
@@ -342,7 +359,7 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                 @endcan
                             </div>
 
-                            @if($member->contributions->count() > 0)
+                            @if($this->contributions->count() > 0)
                                 <div class="overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-700">
                                     <table class="w-full">
                                         <thead class="bg-neutral-50 dark:bg-neutral-900">
@@ -355,7 +372,7 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($member->contributions as $contribution)
+                                            @foreach($this->contributions as $contribution)
                                                 <tr class="border-b border-neutral-200 dark:border-neutral-700">
                                                     <td class="px-4 py-3 text-sm">{{ $contribution->payment_date->format('M j, Y') }}</td>
                                                     <td class="px-4 py-3 text-sm">{{ $contribution->plan->name }}</td>
@@ -376,11 +393,15 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                         <tfoot>
                                             <tr class="font-semibold">
                                                 <td class="px-4 py-3 text-right" colspan="2">{{ __('Total:') }}</td>
-                                                <td class="px-4 py-3 text-sm">{{ number_format($member->contributions->sum('amount'), 2) }}</td>
+                                                <td class="px-4 py-3 text-sm">{{ number_format($this->contributions->sum('amount'), 2) }}</td>
                                                 <td colspan="2"></td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </div>
+
+                                <div class="mt-4">
+                                    {{ $this->contributions->links() }}
                                 </div>
                             @else
                                 <div class="rounded-lg border border-neutral-200 bg-neutral-50 p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
@@ -399,7 +420,7 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                 @endcan
                             </div>
 
-                            @if($member->loans->count() > 0)
+                            @if($this->loans->count() > 0)
                                 <div class="overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-700">
                                     <table class="w-full">
                                         <thead class="bg-neutral-50 dark:bg-neutral-900">
@@ -413,7 +434,7 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($member->loans as $loan)
+                                            @foreach($this->loans as $loan)
                                                 <tr class="border-b border-neutral-200 dark:border-neutral-700">
                                                     <td class="px-4 py-3 text-sm">{{ $loan->created_at->format('M j, Y') }}</td>
                                                     <td class="px-4 py-3 text-sm">{{ number_format($loan->amount, 2) }}</td>
@@ -439,6 +460,10 @@ new #[Layout('components.layouts.app', ['title' => 'Member Details'])] class ext
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+
+                                <div class="mt-4">
+                                    {{ $this->loans->links() }}
                                 </div>
                             @else
                                 <div class="rounded-lg border border-neutral-200 bg-neutral-50 p-8 text-center dark:border-neutral-700 dark:bg-neutral-900">
